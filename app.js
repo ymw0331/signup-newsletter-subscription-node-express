@@ -37,11 +37,11 @@ app.post("/", function (req, res) {
     //turn JS object into JSON
     const jsonData = JSON.stringify(data);
 
-    const url = 'https://us1.api.mailchimp.com/3.0/lists/39ef72e080'
+    const url = 'https://us[x].api.mailchimp.com/3.0/lists/[list-id]'
 
     const options = {
         method: "POST",
-        auth: "wayne1:46d31e69f062823ec7b5aa2d3866d57b-us1"
+        auth: [MailChimp-API-Key]
     }
 
     //create const that contains all the data above and send to MailChimp
@@ -80,8 +80,3 @@ app.listen(process.env.PORT || 3000, function () {
 })
 
 
-//apikey
-//46d31e69f062823ec7b5aa2d3866d57b-us1
-
-//list id
-//39ef72e080
