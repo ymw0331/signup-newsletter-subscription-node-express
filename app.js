@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const { urlencoded } = require("body-parser");
 const https = require("https")
-
+const dotev = require('dotenv').config();
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -11,6 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.get("/", function (req, res) {
 
     res.sendFile(__dirname + "/index.html")
+
 })
 
 app.post("/", function (req, res) {
@@ -37,26 +38,26 @@ app.post("/", function (req, res) {
     //turn JS object into JSON
     const jsonData = JSON.stringify(data);
 
-    const url = 'https://us[x].api.mailchimp.com/3.0/lists/[list-id]'
+    const url = 'https://us1.api.mailchimp.com/3.0/lists/' + process.env.list_id
 
     const options = {
         method: "POST",
-        auth: [MailChimp-API-Key]
+        auth: process.env.auth
     }
 
     //create const that contains all the data above and send to MailChimp
     //use https, get response from MailChimp server
     const request = https.request(url, options, function (response) {
-        
-        if(response.statusCode === 200){
-            res.sendFile(__dirname +"/sucess.html");
 
-        }else{
+        if (response.statusCode === 200) {
+            res.sendFile(__dirname + "/sucess.html");
+
+        } else {
             res.sendFile(__dirname + "/failure.html");
 
         }
-        
-        
+
+
         response.on("data", function (data) {
             console.log(JSON.parse(data));
         })
@@ -68,7 +69,7 @@ app.post("/", function (req, res) {
 
 })
 
-app.post("/failure", function(req, res){
+app.post("/failure", function (req, res) {
 
     res.redirect("/");
 })
@@ -77,6 +78,7 @@ app.post("/failure", function(req, res){
 app.listen(process.env.PORT || 3000, function () {
 
     console.log("Server is up and running at port " + process.env.PORT)
+
 })
 
 
