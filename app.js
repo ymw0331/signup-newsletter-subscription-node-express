@@ -2,7 +2,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const { urlencoded } = require("body-parser");
 const https = require("https")
-const dotev = require('dotenv').config();
+const dotenv = require("dotenv").config();
+const api_key = process.env.MAILCHIMP_API;
+const list_id = process.env.LIST_ID;
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -35,14 +37,15 @@ app.post("/", function (req, res) {
         ]
     };
 
-    //turn JS object into JSON
-    const jsonData = JSON.stringify(data);
 
-    const url = 'https://us1.api.mailchimp.com/3.0/lists/' + process.env.list_id
+    //turn JS object into JSON
+    const jsonData = JSON.stringify(data)
+
+    const url = `https://us1.api.mailchimp.com/3.0/lists/${list_id}`
 
     const options = {
         method: "POST",
-        auth: process.env.auth
+        auth: `wayne1:${api_key}`
     }
 
     //create const that contains all the data above and send to MailChimp
@@ -51,10 +54,11 @@ app.post("/", function (req, res) {
 
         if (response.statusCode === 200) {
             res.sendFile(__dirname + "/sucess.html");
+            // console.log("Environment Variables:");
+            // console.log(process.env.MAILCHIMP_API);
 
         } else {
             res.sendFile(__dirname + "/failure.html");
-
         }
 
 
