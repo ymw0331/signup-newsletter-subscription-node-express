@@ -78,11 +78,16 @@ app.post("/failure", function (req, res) {
     res.redirect("/");
 })
 
-//process.env.PORT, dynamic port for web hosting
-app.listen(process.env.PORT || 3000, function () {
 
-    console.log("Server is up and running at port " + process.env.PORT)
+let port = process.env.PORT
+if( port == null || port == ""){
+    port = 3000;
+}
 
+
+app.listen(port , function () {
+    console.log("Server is up and running at port "+ port + " successfully")
 })
+
 
 
